@@ -1,64 +1,66 @@
 package tictactoe;
 
-public class TicTacToe {
-    
+public class TicTacToe
+{
     private char[][] board;
-
-    // Constructors
+    
     public TicTacToe() {
-        board = new char[3][3];
-
-        for (int r = 0; r < 3; r++) {
-            for (int c = 0; c < 3; c++) {
-                board[r][c] = ' ';
+        this.board = new char[3][3];
+        for (int r = 0; r < 3; ++r) {
+            for (int c = 0; c < 3; ++c) {
+                this.board[r][c] = ' ';
             }
         }
     }
-
-    // Accessor Methods
-    public boolean isWinner(char p) {
-        // I NEED A REAL IMPLEMENTATION!!!!!!
-        return false;
+    
+    public boolean isWinner(final char p) {
+        for (int i = 0; i < 3; ++i) {
+            if (this.board[i][0] == p && this.board[i][1] == p && this.board[i][2] == p) {
+                return true;
+            }
+            if (this.board[0][i] == p && this.board[1][i] == p && this.board[2][i] == p) {
+                return true;
+            }
+        }
+        return (this.board[0][0] == p && this.board[1][1] == p && this.board[2][2] == p) || (this.board[0][2] == p && this.board[1][1] == p && this.board[2][0] == p);
     }
-
+    
     public boolean isFull() {
-        // I NEED A REAL IMPLEMENTATION!!!!!!
-        return false;
+        for (int r = 0; r < 3; ++r) {
+            for (int c = 0; c < 3; ++c) {
+                if (this.board[r][c] == ' ') {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
-
+    
     public boolean isCat() {
-        // I NEED A REAL IMPLEMENTATION!!!!!!
-        return false;
+        return this.isFull() && !this.isWinner('X') && !this.isWinner('O');
     }
-
-    public boolean isValid(int r, int c) {
-        if (0 <= r && r <= 2 && 0 <= c && c <= 2) {
-            return true;
-        } else {
-            return false;
+    
+    public boolean isValid(final int r, final int c) {
+        return 0 <= r && r <= 2 && 0 <= c && c <= 2;
+    }
+    
+    public char playerAt(final int r, final int c) {
+        if (this.isValid(r, c)) {
+            return this.board[r][c];
         }
+        return '@';
     }
-
-    public char playerAt(int r, int c) {
-        if (isValid(r, c)) {
-            return board[r][c];
-        } else {
-            return '@';
-        }
-    }
-
+    
     public void displayBoard() {
-        System.out.println("  0  " + board[0][0] + "|" + board[0][1] + "|" + board[0][2]);
+        System.out.println("  0  " + this.board[0][0] + "|" + this.board[0][1] + "|" + this.board[0][2]);
         System.out.println("    --+-+--");
-        System.out.println("  1  " + board[1][0] + "|" + board[1][1] + "|" + board[1][2]);
+        System.out.println("  1  " + this.board[1][0] + "|" + this.board[1][1] + "|" + this.board[1][2]);
         System.out.println("    --+-+--");
-        System.out.println("  2  " + board[2][0] + "|" + board[2][1] + "|" + board[2][2]);
+        System.out.println("  2  " + this.board[2][0] + "|" + this.board[2][1] + "|" + this.board[2][2]);
         System.out.println("     0 1 2 ");
     }
-
-    // Modifiers
-    public void playMove(char p, int r, int c) {
-        // I NEED A REAL IMPLEMENTATION!!!!!!
+    
+    public void playMove(final char p, final int r, final int c) {
+        this.board[r][c] = p;
     }
-
 }

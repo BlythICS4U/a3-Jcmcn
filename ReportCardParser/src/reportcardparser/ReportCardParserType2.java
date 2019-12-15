@@ -1,37 +1,35 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package reportcardparser;
 
-/**
- * Class to handle parsing of a Type 2 report card
- * 
- * @author chris
- */
-public class ReportCardParserType2 implements IReportCardParser {
-    
-    private String filePath; // Path to the report card file
-    
-    /**
-     * Constructor
-     * 
-     * @param filePath Path to the report card file
-     */
-    public ReportCardParserType2(String filePath) {
-        this.filePath = filePath;
-    }
-    
-    /**
-     * Parse the configured report card file
-     * 
-     * @return ReportCard object containing the data from the configured report card file
-     */
-    @Override
-    public ReportCard parse() {
-        // REPLACE ME WITH A REAL IMPLEMENTATION!
-        return null;
-    }
+import java.io.IOException;
+import java.io.BufferedReader;
 
+public class ReportCardParserType2 extends AbstractReportCardParser
+{
+    private String filePath;
+    
+    public ReportCardParserType2(final String filePath) {
+        super(filePath);
+    }
+    
+    @Override
+    ReportCard parseFile(final BufferedReader br) {
+        try {
+            final String nameLine = br.readLine();
+            final String DOBLine = br.readLine();
+            br.readLine();
+            final String[] placeholder = br.readLine().split(",");
+            final CourseMark[] subject = new CourseMark[placeholder.length / 2];
+            double sum = 0.0;
+            for (int i = 0; i < subject.length; ++i) {
+                subject[i] = new CourseMark(placeholder[i * 2], Integer.parseInt(placeholder[i * 2 + 1]));
+                sum += subject[i].getMark();
+            }
+            final double average = sum / subject.length;
+            return new ReportCard(nameLine, DOBLine, subject, average);
+        }
+        catch (IOException ioe) {
+            ioe.printStackTrace(System.out);
+            return null;
+        }
+    }
 }
